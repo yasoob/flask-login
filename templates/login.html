@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "layout.html" %}
+{% block title %}Log in {% endblock %}
+{% block body %}
+<div class = "login">
+<p> If you are a regular user and have signed up before then don't hesitate to login below. It will take only two minutes and you will be able to access a whole lot more goodies!</p>
+{% if session['user_email'] %} 
+<p class="login-box">You are already logged in. There is nothing much you can do over here right now.</p>
+{% else %}
+<form class = "login-form" method="POST" action="{{url_for('login')}}">
+<div class="inner-form-login">
+    {{ form.hidden_tag() }}
+    <p class="email">Email: {{ form.email(size=20) }}</p>
+    {% if form.email.errors %}
+	    <ul class=errors>
+	    {% for error in form.email.errors %}
+	      <li class = "error">{{ error }}</li>
+	    {% endfor %}
+	    </ul>
+    {% endif %}
+    <p> Password: {{ form.password(size=20, type = "password") }}</p>
+    {% if form.password.errors %}
+	    <ul class=errors>
+	    {% for error in form.password.errors %}
+	      <li class = "error">{{ error }}</li>
+	    {% endfor %}
+	    </ul>
+    {% endif %}
+    <input class = "login-btn" type="submit" value="Login"></p>
+</div>
+</form>
+<p>
+	Are you new over here? <a href = "{{url_for('signup')}}">Click here</a> to Signup.
+	</p>
+{% endif %}
+</div>
+{% endblock %}

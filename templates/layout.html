@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<title>{% block title %}{% endblock %}| Logit</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="{{url_for('static',  filename = 'css/main.css')}}" type="text/css">
+	{% block head %}
+	{% endblock %}
+
 </head>
 <body>
+	<p class="nav">
+		<a href = "{{url_for('home')}}">Home</a> //
+		{% if session['user_email'] %}
+		<a href = "{{url_for('logout')}}">Logout</a> //
+        {% else %}
+		<a href = "{{url_for('login')}}">login</a> //
+        {% endif %}
+	</p>
+	<div class = "flash-messages">
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+		<ul class=flashes>
+		{% for category, message in messages %}
+		<li class = {{category}}>{{ message }}</li>
+		{% endfor %}
+		</ul>
+		{% endif %}
+	{% endwith %}
+	</div>
 
+	{% block body%}
+	{% endblock %}
+    </div>
 </body>
 </html>
+
